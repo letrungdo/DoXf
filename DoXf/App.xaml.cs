@@ -1,13 +1,12 @@
-﻿using System;
-using Xamarin.Essentials;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using DoXf.Services;
-using DoXf.Views;
+﻿using Xamarin.Essentials;
+using Prism.Ioc;
+using Prism;
+using Prism.DryIoc;
 
 namespace DoXf
 {
-    public partial class App : Application
+    [AutoRegisterForNavigation]
+    public partial class App : PrismApplication
     {
         //TODO: Replace with *.azurewebsites.net url after deploying backend to Azure
         //To debug on Android emulators run the web backend against .NET Core not IIS
@@ -16,15 +15,32 @@ namespace DoXf
             DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5000" : "http://localhost:5000";
         public static bool UseMockDataStore = true;
 
-        public App()
+        public App(IPlatformInitializer initializer) : base(initializer) { }
+
+        protected override void OnInitialized()
         {
             InitializeComponent();
 
-            if (UseMockDataStore)
-                DependencyService.Register<MockDataStore>();
-            else
-                DependencyService.Register<AzureDataStore>();
-            MainPage = new AppShell();
+            NavigationService.NavigateAsync($"{nameof(AppShell)}");
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            // Dialog
+            //containerRegistry.RegisterDialog<DemoDialog, DemoDialogViewModel>();
+
+            // Pages
+            //containerRegistry.RegisterForNavigation<NavigationPage>();
+            //containerRegistry.RegisterForNavigation<AboutPage, AboutViewModel>();
+            //containerRegistry.RegisterForNavigation<AppShell>();
+
+            // Interface
+            //containerRegistry.Register(typeof(IDashboardService), typeof(DashboardService));
+
+            //if (UseMockDataStore)
+            //    DependencyService.Register<MockDataStore>();
+            //else
+            //    DependencyService.Register<AzureDataStore>();
         }
 
         protected override void OnStart()

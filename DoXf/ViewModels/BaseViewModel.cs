@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
+﻿using Prism.Mvvm;
+using Prism.Navigation;
+using Prism.AppModel;
+using Prism.Services;
+using System.Threading.Tasks;
 using Xamarin.Forms;
-
-using DoXf.Models;
-using DoXf.Services;
 
 namespace DoXf.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : BindableBase, INavigationAware, IDestructible, IPageLifecycleAware, IApplicationLifecycleAware
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        protected INavigationService NavigationService { get; private set; }
+        protected IPageDialogService PageDialogService { get; private set; }
 
         bool isBusy = false;
         public bool IsBusy
@@ -28,29 +26,77 @@ namespace DoXf.ViewModels
             set { SetProperty(ref title, value); }
         }
 
-        protected bool SetProperty<T>(ref T backingStore, T value,
-            [CallerMemberName]string propertyName = "",
-            Action onChanged = null)
+        public BaseViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
         {
-            if (EqualityComparer<T>.Default.Equals(backingStore, value))
-                return false;
-
-            backingStore = value;
-            onChanged?.Invoke();
-            OnPropertyChanged(propertyName);
-            return true;
+            NavigationService = navigationService;
+            PageDialogService = pageDialogService;
         }
 
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        private bool _isRunning;
+        public Task<INavigationResult> NavigateAsync(string pageName, INavigationParameters param = null, bool? useModal = null, bool animated = true)
         {
-            var changed = PropertyChanged;
-            if (changed == null)
-                return;
+            var task = new TaskCompletionSource<INavigationResult>();
+            // Block multi tap
+            if (_isRunning)
+                return task.Task;
 
-            changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            _isRunning = true;
+
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                var result = await NavigationService.NavigateAsync(pageName, param, useModal, animated);
+                if (!result.Success)
+                {
+                    _isRunning = false;
+                }
+                task.SetResult(result);
+            });
+            return task.Task;
         }
-        #endregion
+
+        public Task<INavigationResult> GoBackAsync(INavigationParameters param = null, bool? useModal = null, bool anim = true)
+        {
+            var task = new TaskCompletionSource<INavigationResult>();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                var result = await NavigationService.GoBackAsync(param, useModal, anim);
+                task.SetResult(result);
+            });
+            return task.Task;
+        }
+
+
+        public virtual void OnNavigatedFrom(INavigationParameters parameters)
+        {
+        }
+
+        public virtual void OnNavigatedTo(INavigationParameters parameters)
+        {
+        }
+
+        public virtual void OnNavigatingTo(INavigationParameters parameters)
+        {
+        }
+
+        public virtual void Destroy()
+        {
+
+        }
+
+        public virtual void OnAppearing()
+        {
+        }
+
+        public virtual void OnDisappearing()
+        {
+        }
+
+        public virtual void OnResume()
+        {
+        }
+
+        public virtual void OnSleep()
+        {
+        }
     }
 }
