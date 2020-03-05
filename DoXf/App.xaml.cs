@@ -2,6 +2,8 @@
 using Prism.Ioc;
 using Prism;
 using Prism.DryIoc;
+using Xamarin.Forms;
+using DoXf.Views;
 
 namespace DoXf
 {
@@ -21,7 +23,8 @@ namespace DoXf
         {
             InitializeComponent();
 
-            NavigationService.NavigateAsync($"{nameof(AppShell)}");
+            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(AboutPage)}");
+            //NavigationService.NavigateAsync($"{nameof(AppShell)}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -30,7 +33,7 @@ namespace DoXf
             //containerRegistry.RegisterDialog<DemoDialog, DemoDialogViewModel>();
 
             // Pages
-            //containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<NavigationPage>();
             //containerRegistry.RegisterForNavigation<AboutPage, AboutViewModel>();
             //containerRegistry.RegisterForNavigation<AppShell>();
 

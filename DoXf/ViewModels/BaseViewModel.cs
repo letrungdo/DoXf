@@ -4,6 +4,7 @@ using Prism.AppModel;
 using Prism.Services;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Windows.Input;
 
 namespace DoXf.ViewModels
 {
@@ -26,6 +27,7 @@ namespace DoXf.ViewModels
             set { SetProperty(ref title, value); }
         }
 
+        public ICommand BackCommand { get; set; }
         public BaseViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
         {
             NavigationService = navigationService;
@@ -72,6 +74,7 @@ namespace DoXf.ViewModels
 
         public virtual void OnNavigatedTo(INavigationParameters parameters)
         {
+            _isRunning = false;
         }
 
         public virtual void OnNavigatingTo(INavigationParameters parameters)

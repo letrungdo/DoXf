@@ -1,0 +1,66 @@
+﻿<ContentPage
+    x:Class="DoXf.Views.SkiaSharpPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:control="clr-namespace:DoXf.Controls"
+    xmlns:prism="http://prismlibrary.com"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    NavigationPage.HasBackButton="False">
+    <NavigationPage.TitleView>
+        <AbsoluteLayout>
+            <Button
+                AbsoluteLayout.LayoutBounds="0,.5,.15,.45"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="Yellow"
+                Command="{Binding BackCommand}"
+                Text="haha" />
+        </AbsoluteLayout>
+    </NavigationPage.TitleView>
+    <StackLayout BackgroundColor="DarkOrange" Orientation="Vertical">
+        <Grid ColumnSpacing="10" HeightRequest="150">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*" />
+                <ColumnDefinition Width=".5*" />
+            </Grid.ColumnDefinitions>
+            <control:ButtonCanvas
+                Grid.Column="0"
+                BgInsideColor="DarkCyan"
+                BorderColor="DarkGray"
+                BorderWidth="5"
+                Command="{Binding TouchCommand}"
+                CommandParameter="Left"
+                CornerRadius="5"
+                Direction="Right"
+                EnableTouchEvents="True">
+                <control:ButtonCanvas.Triggers>
+                    <DataTrigger
+                        Binding="{Binding Source={x:Reference sw}, Path=IsToggled}"
+                        TargetType="control:ButtonCanvas"
+                        Value="True">
+                        <Setter Property="StyleMode" Value="Dark" />
+                    </DataTrigger>
+                </control:ButtonCanvas.Triggers>
+            </control:ButtonCanvas>
+            <control:ButtonCanvas
+                Grid.Column="1"
+                BgInsideColor="DarkCyan"
+                BorderColor="DarkGray"
+                BorderWidth="5"
+                Command="{Binding TouchCommand}"
+                CommandParameter="Right"
+                CornerRadius="5"
+                Direction="Left"
+                EnableTouchEvents="True">
+                <control:ButtonCanvas.Triggers>
+                    <DataTrigger
+                        Binding="{Binding Source={x:Reference sw}, Path=IsToggled}"
+                        TargetType="control:ButtonCanvas"
+                        Value="True">
+                        <Setter Property="StyleMode" Value="Dark" />
+                    </DataTrigger>
+                </control:ButtonCanvas.Triggers>
+            </control:ButtonCanvas>
+        </Grid>
+        <Switch x:Name="sw" IsToggled="True" />
+    </StackLayout>
+</ContentPage>

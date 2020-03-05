@@ -3,8 +3,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-    xmlns:local="clr-namespace:DoXf.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:DoXf.Views"
     Title="DoXf"
     mc:Ignorable="d">
     <!--
@@ -27,45 +27,24 @@
             <Style BasedOn="{StaticResource BaseStyle}" TargetType="TabBar" />
         </ResourceDictionary>
     </Shell.Resources>
-    <!--  Your Pages  -->
-    <TabBar>
-        <!--<Tab
-            Title="Browse"
-            Icon="tab_feed.png">
-            <ShellContent
-                ContentTemplate="{DataTemplate local:ItemsPage}" />
-        </Tab>-->
-        <Tab Title="About" Icon="tab_about.png">
-            <ShellContent ContentTemplate="{DataTemplate local:AboutPage}" />
-        </Tab>
-    </TabBar>
-    <!-- Optional Templates
-    // These may be provided inline as below or as separate classes.
-
-    // This header appears at the top of the Flyout.
-    <Shell.FlyoutHeaderTemplate>
-        <DataTemplate>
-            <Grid>ContentHere</Grid>
-        </DataTemplate>
-    </Shell.FlyoutHeaderTemplate>
-
-    // ItemTemplate is for ShellItems as displayed in a Flyout
-    <Shell.ItemTemplate>
-        <DataTemplate>
-            <ContentView>
-                Bindable Properties: Title, Icon
-            </ContentView>
-        </DataTemplate>
-    </Shell.ItemTemplate>
-
-    // MenuItemTemplate is for MenuItems as displayed in a Flyout
-    <Shell.MenuItemTemplate>
-        <DataTemplate>
-            <ContentView>
-                Bindable Properties: Text, Icon
-            </ContentView>
-        </DataTemplate>
-    </Shell.MenuItemTemplate>
-
-    -->
+    <Shell.FlyoutHeader>
+        <StackLayout>
+            <Button Text="This is Header" />
+        </StackLayout>
+    </Shell.FlyoutHeader>
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="SkiaSharp" Icon="tab_about.png">
+            <views:SkiaSharpPage />
+        </ShellContent>
+        <ShellContent
+            Title="About"
+            ContentTemplate="{DataTemplate views:AboutPage}"
+            Icon="tab_feed.png" />
+    </FlyoutItem>
+    <ShellContent
+        Title="About out"
+        ContentTemplate="{DataTemplate views:AboutPage}"
+        Icon="tab_about.png" />
+    <MenuItem Text="MenuItem1" />
+    <MenuItem Text="MenuItem2" />
 </Shell>
