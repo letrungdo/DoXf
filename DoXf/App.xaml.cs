@@ -3,7 +3,8 @@ using Prism.Ioc;
 using Prism;
 using Prism.DryIoc;
 using Xamarin.Forms;
-using DoXf.Views;
+using DoXf.Pages;
+using DoXf.ViewModels;
 
 namespace DoXf
 {
@@ -34,8 +35,9 @@ namespace DoXf
 
             // Pages
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            //containerRegistry.RegisterForNavigation<AboutPage, AboutViewModel>();
-            //containerRegistry.RegisterForNavigation<AppShell>();
+            containerRegistry.RegisterForNavigation<AppShell>();
+            containerRegistry.RegisterForNavigation<AboutPage, AboutPageViewModel>();
+            containerRegistry.RegisterForNavigation<SkiaSharpPage, SkiaSharpPageViewModel>();
 
             // Interface
             //containerRegistry.Register(typeof(IDashboardService), typeof(DashboardService));

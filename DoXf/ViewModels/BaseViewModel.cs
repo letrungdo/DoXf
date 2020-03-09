@@ -5,10 +5,17 @@ using Prism.Services;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Windows.Input;
+using Prism.Commands;
+using System;
 
 namespace DoXf.ViewModels
 {
-    public class BaseViewModel : BindableBase, INavigationAware, IDestructible, IPageLifecycleAware, IApplicationLifecycleAware
+    public enum BackMode
+    {
+        Press,
+        Swipe,
+    }
+    public class BaseViewModel : BindableBase, INavigationAware, IDestructible, IPageLifecycleAware, IApplicationLifecycleAware, IInitializeAsync
     {
         protected INavigationService NavigationService { get; private set; }
         protected IPageDialogService PageDialogService { get; private set; }
@@ -28,10 +35,22 @@ namespace DoXf.ViewModels
         }
 
         public ICommand BackCommand { get; set; }
+        public INavigationParameters BackParams { get; protected set; }
+
         public BaseViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
         {
             NavigationService = navigationService;
             PageDialogService = pageDialogService;
+            BackCommand = new DelegateCommand<BackMode?>(OnBack);
+        }
+
+        protected virtual void OnBack(BackMode? mode)
+        {
+            // Back params default is null
+            if (mode != BackMode.Swipe)
+            {
+                GoBackAsync(BackParams);
+            }
         }
 
         private bool _isRunning;
@@ -67,9 +86,9 @@ namespace DoXf.ViewModels
             return task.Task;
         }
 
-
-        public virtual void OnNavigatedFrom(INavigationParameters parameters)
+        public virtual Task InitializeAsync(INavigationParameters parameters)
         {
+            return Task.CompletedTask;
         }
 
         public virtual void OnNavigatedTo(INavigationParameters parameters)
@@ -77,7 +96,7 @@ namespace DoXf.ViewModels
             _isRunning = false;
         }
 
-        public virtual void OnNavigatingTo(INavigationParameters parameters)
+        public virtual void OnNavigatedFrom(INavigationParameters parameters)
         {
         }
 

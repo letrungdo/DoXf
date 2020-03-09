@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Navigation;
@@ -12,18 +14,48 @@ namespace DoXf.ViewModels
 
         public SkiaSharpPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService) : base(navigationService, pageDialogService)
         {
+            Title = "SkiaSharpPage";
             TouchCommand = new DelegateCommand<string>(OnTouch);
-            BackCommand = new DelegateCommand(OnBack);
         }
 
-        private void OnBack()
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
-            GoBackAsync();
+            Debug.WriteLine("InitializeAsync SkiaSharpPage:" + parameters);
+            return base.InitializeAsync(parameters);
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            Debug.WriteLine("OnNavigatedTo SkiaSharpPage:" + parameters);
+
+            base.OnNavigatedTo(parameters);
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            Debug.WriteLine("OnNavigatedFrom SkiaSharpPage:" + parameters);
+
+            base.OnNavigatedFrom(parameters);
+        }
+
+        public override void Destroy()
+        {
+            Debug.WriteLine("Destroy SkiaSharpPage:");
+
+            base.Destroy();
+        }
+
+        protected override void OnBack(BackMode? mode)
+        {
+            // todo edit params
+            BackParams = new NavigationParameters();
+            BackParams.Add("BackParams", "hahaha");
+            base.OnBack(mode);
         }
 
         private void OnTouch(string obj)
         {
-            switch(obj)
+            switch (obj)
             {
                 case "Left":
                     //NavigateAsync($"{nameof(SkiaSharpPage)}");

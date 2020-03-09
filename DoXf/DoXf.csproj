@@ -15,5 +15,7 @@
   <ItemGroup>
     <Folder Include="Controls\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Pages\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 </Project>

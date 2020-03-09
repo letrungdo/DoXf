@@ -1,5 +1,7 @@
-﻿using System.Windows.Input;
-using DoXf.Views;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using DoXf.Pages;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -23,6 +25,27 @@ namespace DoXf.ViewModels
         private void OnOpenPage()
         {
             NavigateAsync($"{nameof(SkiaSharpPage)}");
+        }
+
+        public override Task InitializeAsync(INavigationParameters parameters)
+        {
+            Debug.WriteLine("InitializeAsync AboutPage:" + parameters);
+
+            return base.InitializeAsync(parameters);
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+            var mode = parameters.GetNavigationMode();
+            Debug.WriteLine("OnNavigatedTo AboutPage: " + parameters + " Mode: " + mode);
+
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            base.OnNavigatedFrom(parameters);
+            Debug.WriteLine("OnNavigatedFrom AboutPage:" + parameters);
         }
     }
 }

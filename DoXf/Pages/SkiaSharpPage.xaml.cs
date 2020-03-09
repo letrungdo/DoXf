@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 using Xamarin.Forms;
 
-namespace DoXf.Views
+namespace DoXf.Pages
 {
-    public partial class SkiaSharpPage : ContentPage
+    public partial class SkiaSharpPage
     {
         public SkiaSharpPage()
         {

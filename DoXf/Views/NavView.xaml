@@ -1,0 +1,21 @@
+﻿<AbsoluteLayout
+    x:Class="DoXf.Views.NavView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="view"
+    BackgroundColor="Yellow">
+    <Button
+        AbsoluteLayout.LayoutBounds="0,.5,.2,1"
+        AbsoluteLayout.LayoutFlags="All"
+        BackgroundColor="Red"
+        Command="{Binding BackCommand}"
+        IsVisible="{Binding HasBackButton, Source={x:Reference view}}"
+        Text="Back" />
+    <Label
+        AbsoluteLayout.LayoutBounds=".5,.5,.6,1"
+        AbsoluteLayout.LayoutFlags="All"
+        FontSize="Title"
+        HorizontalTextAlignment="Center"
+        Text="{Binding Title}"
+        VerticalTextAlignment="Center" />
+</AbsoluteLayout>

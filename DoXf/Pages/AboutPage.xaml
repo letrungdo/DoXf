@@ -1,13 +1,16 @@
-﻿<ContentPage
-    x:Class="DoXf.Views.AboutPage"
+﻿<control:BaseScreen
+    x:Class="DoXf.Pages.AboutPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:control="clr-namespace:DoXf.Controls"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:prism="http://prismlibrary.com"
+    xmlns:views="clr-namespace:DoXf.Views"
     Title="{Binding Title}"
-    prism:ViewModelLocator.AutowireViewModel="True"
     mc:Ignorable="d">
+    <NavigationPage.TitleView>
+        <views:NavView HasBackButton="False" />
+    </NavigationPage.TitleView>
     <ContentPage.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#2196F3</Color>
@@ -95,4 +98,4 @@
             </StackLayout>
         </ScrollView>
     </Grid>
-</ContentPage>
+</control:BaseScreen>

@@ -1,20 +1,13 @@
-﻿<ContentPage
-    x:Class="DoXf.Views.SkiaSharpPage"
+﻿<control:BaseScreen
+    x:Class="DoXf.Pages.SkiaSharpPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:control="clr-namespace:DoXf.Controls"
-    xmlns:prism="http://prismlibrary.com"
-    prism:ViewModelLocator.AutowireViewModel="True"
-    NavigationPage.HasBackButton="False">
+    xmlns:views="clr-namespace:DoXf.Views"
+    Title="Skia Sharp"
+    UsedSwipeBack="True">
     <NavigationPage.TitleView>
-        <AbsoluteLayout>
-            <Button
-                AbsoluteLayout.LayoutBounds="0,.5,.15,.45"
-                AbsoluteLayout.LayoutFlags="All"
-                BackgroundColor="Yellow"
-                Command="{Binding BackCommand}"
-                Text="haha" />
-        </AbsoluteLayout>
+        <views:NavView />
     </NavigationPage.TitleView>
     <StackLayout BackgroundColor="DarkOrange" Orientation="Vertical">
         <Grid ColumnSpacing="10" HeightRequest="150">
@@ -63,4 +56,4 @@
         </Grid>
         <Switch x:Name="sw" IsToggled="True" />
     </StackLayout>
-</ContentPage>
+</control:BaseScreen>
